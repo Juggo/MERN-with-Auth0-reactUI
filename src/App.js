@@ -25,28 +25,27 @@ class App extends Component {
             <Navbar.Brand>
               <a href="#">RATE IT - An IT Service Rating App</a>
             </Navbar.Brand>
-            <a
+            <Button
+              className="btn-margin"
               pullRight="true"
               onClick={this.goTo.bind(this, 'home')}
             >
               Home
-            </a>
+            </Button>
             {
               !isAuthenticated() && (
-                  <a
-                    bsStyle="primary"
+                  <Button
                     className="btn-margin"
                     pullRight="true"
                     onClick={this.login.bind(this)}
                   >
                     Log In
-                  </a>
+                  </Button>
                 )
             }
             {
               isAuthenticated() && (
                   <Button
-                    bsStyle="primary"
                     className="btn-margin"
                     pullRight="true"
                     onClick={this.goTo.bind(this, 'profile')}
@@ -58,7 +57,6 @@ class App extends Component {
             {
               isAuthenticated() && (
                   <Button
-                    bsStyle="primary"
                     className="btn-margin"
                     pullRight="true"
                     onClick={this.goTo.bind(this, 'ping')}
@@ -70,7 +68,6 @@ class App extends Component {
             {
               isAuthenticated() && (
                   <Button
-                    bsStyle="primary"
                     className="btn-margin"
                     pullRight="true"
                     onClick={this.logout.bind(this)}
