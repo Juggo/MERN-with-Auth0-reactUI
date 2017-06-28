@@ -19,28 +19,28 @@ class App extends Component {
     const { isAuthenticated } = this.props.auth;
 
     return (
-      <div>
+      <div className="container">
         <Navbar fluid>
           <Navbar.Header>
             <Navbar.Brand>
-              <a href="#">Auth0 - React</a>
+              <a href="#">RATE IT - An IT Service Rating App</a>
             </Navbar.Brand>
-            <Button
-              bsStyle="primary"
-              className="btn-margin"
+            <a
+              pullRight="true"
               onClick={this.goTo.bind(this, 'home')}
             >
               Home
-            </Button>
+            </a>
             {
               !isAuthenticated() && (
-                  <Button
+                  <a
                     bsStyle="primary"
                     className="btn-margin"
+                    pullRight="true"
                     onClick={this.login.bind(this)}
                   >
                     Log In
-                  </Button>
+                  </a>
                 )
             }
             {
@@ -48,6 +48,7 @@ class App extends Component {
                   <Button
                     bsStyle="primary"
                     className="btn-margin"
+                    pullRight="true"
                     onClick={this.goTo.bind(this, 'profile')}
                   >
                     Profile
@@ -59,6 +60,7 @@ class App extends Component {
                   <Button
                     bsStyle="primary"
                     className="btn-margin"
+                    pullRight="true"
                     onClick={this.goTo.bind(this, 'ping')}
                   >
                     Ping
@@ -70,6 +72,7 @@ class App extends Component {
                   <Button
                     bsStyle="primary"
                     className="btn-margin"
+                    pullRight="true"
                     onClick={this.logout.bind(this)}
                   >
                     Log Out
