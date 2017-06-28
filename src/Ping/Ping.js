@@ -9,12 +9,12 @@ class Ping extends Component {
   ping() {
     fetch(`${API_URL}/public`)
       .then(res => res.json())
-      .then(data => this.setState({ message: data.message }));
+      .then(data => this.setState({ message: data[0].message }));
   }
   securedPing() {
     const { authFetch } = this.props.auth;
     authFetch(`${API_URL}/private`)
-      .then(data => this.setState({ message: data }))
+      .then(data => this.setState({ message: data.message }))
       .catch(error => this.setState({ message: error.message }));
   }
   render() {
