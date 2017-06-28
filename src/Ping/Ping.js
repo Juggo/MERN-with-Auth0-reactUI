@@ -14,7 +14,7 @@ class Ping extends Component {
   securedPing() {
     const { authFetch } = this.props.auth;
     authFetch(`${API_URL}/private`)
-      .then(data => this.setState({ message: data[0].message }))
+      .then(data => this.setState({ message: data }))
       .catch(error => this.setState({ message: error.message }));
   }
   render() {
