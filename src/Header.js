@@ -23,7 +23,7 @@ class Header extends Component {
             <div className="container nav-wrapper">
                 <a href="#" data-activates="mobile-demo" className="button-collapse"><i className="material-icons">menu</i></a>
                 <a href="" onClick={this.goTo.bind(this, '')} className="brand-logo"><i className="material-icons">done_all</i> Rate IT</a>
-                <ul id="nav-mobile" className="right hide-on-med-and-down">
+                <ul id="mobile-demo" className="right hide-on-med-and-down">
                     {
                         !isAuthenticated() && (
                             <li><a onClick={this.login.bind(this)}>Log In</a></li>
