@@ -35,9 +35,9 @@ class App extends Component {
                 </div>
                 <div className="card-stacked">
                   <div className="card-content">
-                  <p><b>{ provider.name }</b></p><br/>
-                  <p><i className="material-icons card-icon">info_outline</i>{ provider.info }</p><br/>
-                  <p><i className="material-icons card-icon">location_on</i>{ provider.address }</p><br/>
+                  <p><b>{ provider.name }</b></p>
+                  <p><i className="material-icons card-icon">info_outline</i>{ provider.info }</p>
+                  <p><i className="material-icons card-icon">location_on</i>{ provider.address }</p>
                   <p><i className="material-icons card-icon star-rate">star_rate</i>{ provider.rating }</p>
                   </div>
                 </div>

@@ -1,9 +1,12 @@
 import React, { Component } from 'react';
 //import { Navbar, Nav, Button } from 'react-bootstrap';
 import './App.css';
-import $ from 'materialize-css'; 
+import $ from 'jquery'; 
 
 class Header extends Component {
+    componentDidMount() {
+        $(".button-collapse").sideNav();
+    }
   goTo(route) {
     this.props.history.replace(`/${route}`)
   }
