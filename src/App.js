@@ -10,9 +10,9 @@ class App extends Component {
         super(props);
 //        this.state = {providers: []};
         
-//        if(this.props.auth) {
+        if(this.props.auth) {
             this.loadSecuredProviders();
-//        }
+        }
     }
   componentWillMount() {
     this.setState({ providers: [] });

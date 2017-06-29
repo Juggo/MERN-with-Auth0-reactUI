@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 //import { Navbar, Nav, Button } from 'react-bootstrap';
 import './App.css';
+import $ from 'materialize-css'; 
 
 class Header extends Component {
   goTo(route) {
@@ -23,7 +24,19 @@ class Header extends Component {
             <div className="container nav-wrapper">
                 <a href="#" data-activates="mobile-demo" className="button-collapse"><i className="material-icons">menu</i></a>
                 <a href="" onClick={this.goTo.bind(this, '')} className="brand-logo"><i className="material-icons">done_all</i> Rate IT</a>
-                <ul id="mobile-demo" className="right hide-on-med-and-down">
+                <ul className="right hide-on-med-and-down">
+                    {
+                        !isAuthenticated() && (
+                            <li><a onClick={this.login.bind(this)}>Log In</a></li>
+                        )
+                    }
+                    {
+                        isAuthenticated() && (
+                            <li><a onClick={this.logout.bind(this)}>Log Out</a></li>
+                        )
+                    }
+                </ul>
+                <ul className="side-nav" id="mobile-demo">
                     {
                         !isAuthenticated() && (
                             <li><a onClick={this.login.bind(this)}>Log In</a></li>
