@@ -21,6 +21,7 @@ class Header extends Component {
     return (
         <nav>
             <div className="container nav-wrapper">
+                <a href="#" data-activates="mobile-demo" className="button-collapse"><i className="material-icons">menu</i></a>
                 <a href="" onClick={this.goTo.bind(this, '')} className="brand-logo"><i className="material-icons">done_all</i> Rate IT</a>
                 <ul id="nav-mobile" className="right hide-on-med-and-down">
                     {
