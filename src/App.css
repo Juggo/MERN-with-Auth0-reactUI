@@ -1,5 +1,9 @@
-.btn-margin {
-    margin: 7px 3px;
-    border-radius: 0px;
-    border-width: 0px;
+.card-icon {
+    vertical-align: middle;
+    margin-bottom: 5px;
+    width: 30px;
+}
+
+.star-rate {
+    color: goldenrod;
 }

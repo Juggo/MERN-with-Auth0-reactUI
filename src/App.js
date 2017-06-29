@@ -1,83 +1,74 @@
 import React, { Component } from 'react';
-import { Navbar, Button } from 'react-bootstrap';
+//import { Navbar, Nav, Button } from 'react-bootstrap';
 import './App.css';
 
+import { API_URL } from './constants';
+import { Link } from 'react-router-dom';
+
 class App extends Component {
-  goTo(route) {
-    this.props.history.replace(`/${route}`)
+    constructor(props) {
+        super(props);
+//        this.state = {providers: []};
+        
+//        if(this.props.auth) {
+            this.loadSecuredProviders();
+//        }
+    }
+  componentWillMount() {
+    this.setState({ providers: [] });
   }
-
-  login() {
-    this.props.auth.login();
+  loadSecuredProviders() {
+    const { authFetch } = this.props.auth;
+    authFetch(`${API_URL}/providers`)
+      .then(data => this.setState({ providers: data }))
+      .catch(error => this.setState({ providers: error }));
   }
-
-  logout() {
-    this.props.auth.logout();
-  }
-
   render() {
     const { isAuthenticated } = this.props.auth;
-
+    const { providers } = this.state;
+    
+    let providerNodes = this.state.providers.map(provider => {
+        return (
+            <div className="card horizontal" key={ provider._id }>
+                <div className="card-image">
+                  <img alt="" src="https://lorempixel.com/100/190/nature/6"/>
+                </div>
+                <div className="card-stacked">
+                  <div className="card-content">
+                  <p><b>{ provider.name }</b></p><br/>
+                  <p><i className="material-icons card-icon">info_outline</i>{ provider.info }</p><br/>
+                  <p><i className="material-icons card-icon">location_on</i>{ provider.address }</p><br/>
+                  <p><i className="material-icons card-icon star-rate">star_rate</i>{ provider.rating }</p>
+                  </div>
+                </div>
+            </div>
+        )
+    })
+    
     return (
       <div className="container">
-        <Navbar fluid>
-          <Navbar.Header>
-            <Navbar.Brand>
-              <a href="#">RATE IT - An IT Service Rating App</a>
-            </Navbar.Brand>
-            <Button
-              className="btn-margin"
-              pullRight="true"
-              onClick={this.goTo.bind(this, 'home')}
-            >
-              Home
-            </Button>
-            {
-              !isAuthenticated() && (
-                  <Button
-                    className="btn-margin"
-                    pullRight="true"
-                    onClick={this.login.bind(this)}
-                  >
-                    Log In
-                  </Button>
-                )
-            }
-            {
-              isAuthenticated() && (
-                  <Button
-                    className="btn-margin"
-                    pullRight="true"
-                    onClick={this.goTo.bind(this, 'profile')}
-                  >
-                    Profile
-                  </Button>
-                )
-            }
-            {
-              isAuthenticated() && (
-                  <Button
-                    className="btn-margin"
-                    pullRight="true"
-                    onClick={this.goTo.bind(this, 'ping')}
-                  >
-                    Ping
-                  </Button>
-                )
-            }
-            {
-              isAuthenticated() && (
-                  <Button
-                    className="btn-margin"
-                    pullRight="true"
-                    onClick={this.logout.bind(this)}
-                  >
-                    Log Out
-                  </Button>
-                )
-            }
-          </Navbar.Header>
-        </Navbar>
+          {
+            !isAuthenticated() && (
+                <div className="center">
+                    <br/><br/><br/><br/><br/><br/>
+                    <h4><b>Rate IT is an IT service rating app.</b></h4>
+                    <h4>It allows anyone to rate IT service providers over the entire world.</h4>
+                    <br/><br/><br/><br/>
+                    <h4>How does it work?</h4>
+                    <br/><br/><br/><br/>
+                    <h4>All you need to do is <Link to={'/login'}>Log In</Link> and start rating!</h4>
+                </div>
+            )
+        }
+        {
+            isAuthenticated() && (
+                <div>
+                    <br/>
+                    { providerNodes }
+                </div>
+            )
+        }
+        
       </div>
     );
   }

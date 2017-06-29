@@ -1,11 +1,13 @@
 import ReactDOM from 'react-dom';
-import './index.css';
-import 'bootstrap/dist/css/bootstrap.css';
+//import './index.css';
+//import 'bootstrap/dist/css/bootstrap.css';
 import { makeMainRoutes } from './routes';
+import 'materialize-css/dist/css/materialize.css';
+import 'materialize-css/dist/js/materialize.js';
 
-const routes = makeMainRoutes();
+const mainRoutes = makeMainRoutes();
 
 ReactDOM.render(
-  routes,
-  document.getElementById('root')
+    mainRoutes,
+    document.getElementById('root')
 );
