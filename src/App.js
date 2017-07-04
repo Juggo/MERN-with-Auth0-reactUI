@@ -17,9 +17,6 @@ class App extends Component {
     componentWillMount() {
         this.setState({ providers: [] });
     }
-    login() {
-        this.props.auth.login();
-    }
     loadSecuredProviders() {
         const { authFetch } = this.props.auth;
         authFetch(`${API_URL}/providers`)
@@ -55,8 +52,8 @@ class App extends Component {
                       </div>
                     </div>
                 </div>
-            )
-        })
+            );
+        });
 
         return (
           <div className="container">
