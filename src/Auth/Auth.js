@@ -13,6 +13,7 @@ export default class Auth {
   });
 
   userProfile;
+  userInfo;
 
   constructor() {
     this.login = this.login.bind(this);
@@ -22,10 +23,15 @@ export default class Auth {
     this.getAccessToken = this.getAccessToken.bind(this);
     this.getProfile = this.getProfile.bind(this);
     this.authFetch = this.authFetch.bind(this);
+    this.getUserInfo = this.getUserInfo.bind(this);
   }
 
   login() {
-    this.auth0.authorize();
+    this.auth0.authorize({
+        languageDictionary: {
+            title: "Log In"
+        }
+    });
   }
 
   handleAuthentication() {
@@ -61,6 +67,22 @@ export default class Auth {
     return accessToken;
   }
 
+  getUserInfo(cb) {
+    let accessToken = this.getAccessToken();
+    
+    this.auth0.client.userInfo(accessToken, (err, profile) => {
+      if (profile) {
+        var auth0Manage = new auth0.Management({
+            domain: AUTH_CONFIG.domain,
+            token: localStorage.getItem('id_token')
+          });
+      
+        this.userInfo = auth0Manage.getUser(profile.sub, cb);
+      }
+      cb(err, profile);
+    });
+  }
+
   getProfile(cb) {
     let accessToken = this.getAccessToken();
     this.auth0.client.userInfo(accessToken, (err, profile) => {
@@ -87,7 +109,7 @@ export default class Auth {
     let expiresAt = JSON.parse(localStorage.getItem('expires_at'));
     return new Date().getTime() < expiresAt;
   }
-
+  
   authFetch(url, options) {
     const headers = {
       Accept: 'application/json',
