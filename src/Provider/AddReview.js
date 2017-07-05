@@ -233,27 +233,27 @@ class AddReview extends Component {
                 <h2>Provider Rating</h2>
                 
                 <div className="row">
-                  <div className="input-field col s2 offset-s1">
+                  <div className="input-field col m2 s4 offset-m1">
                     <input id="communication" type="number" required="true" aria-required="true" className="validate" 
                         value={ this.state.communication } onChange={ this.handleCommunicationChange }/>
                     <label htmlFor="communication">Communication <span className="red-text">*</span></label>
                   </div>
-                  <div className="input-field col s2">
+                  <div className="input-field col m2 s4">
                     <input id="management" type="number" required="true" aria-required="true" className="validate" 
                         value={ this.state.management } onChange={ this.handleManagementChange }/>
                     <label htmlFor="management">Management <span className="red-text">*</span></label>
                   </div>
-                  <div className="input-field col s2">
+                  <div className="input-field col m2 s4">
                     <input id="integrity" type="number" required="true" aria-required="true" className="validate" 
                         value={ this.state.integrity } onChange={ this.handleIntegrityChange }/>
                     <label htmlFor="integrity">Integrity <span className="red-text">*</span></label>
                   </div>
-                  <div className="input-field col s2">
+                  <div className="input-field col m2 s4">
                     <input id="reliability" type="number" required="true" aria-required="true" className="validate" 
                         value={ this.state.reliability } onChange={ this.handleReliabilityChange }/>
                     <label htmlFor="reliability">Reliability <span className="red-text">*</span></label>
                   </div>
-                  <div className="input-field col s2">
+                  <div className="input-field col m2 s4">
                     <input id="availability" type="number" required="true" aria-required="true" className="validate" 
                         value={ this.state.availability } onChange={ this.handleAvailabilityChange }/>
                     <label htmlFor="availability">Availability <span className="red-text">*</span></label>

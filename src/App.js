@@ -30,26 +30,26 @@ class App extends Component {
             return (
                 <div className="card horizontal hoverable" key={ provider._id }>
                     <div className="card-image">
-                      <img alt="" src={ provider.img }/>
+                        <img alt="" src={ provider.img }/>
                     </div>
                     <div className="card-stacked">
-                      <div className="card-content">
-                        <p><b>{ provider.name }</b></p>
-                        <p><i className="material-icons card-icon">description</i>
-                            { provider.description }
-                        </p>
-                        <p><i className="material-icons card-icon">location_on</i>
-                            { provider.address.street + ', ' + provider.address.city + ', ' }
-                            { (provider.address.postalCode ? provider.address.postalCode + ', ' : '') + provider.address.country }
-                        </p>
-                        <p><i className="material-icons card-icon star-rate">star_rate</i>
-                            { provider.rating.toFixed(1) }
-                        </p>
-                      </div>
-                      <div className="card-action">
-                        <Link to={'/provider/' + provider._id}>Information</Link>
-                        <a href={ provider.website }>Website</a>
-                      </div>
+                        <div className="card-content">
+                            <p><b>{ provider.name }</b></p>
+                            <p><i className="material-icons card-icon">description</i>
+                                { provider.description }
+                            </p>
+                            <p><i className="material-icons card-icon">location_on</i>
+                                { provider.address.street + ', ' + provider.address.city + ', ' }
+                                { (provider.address.postalCode ? provider.address.postalCode + ', ' : '') + provider.address.country }
+                            </p>
+                            <p><i className="material-icons card-icon star-rate">star_rate</i>
+                                { provider.rating.toFixed(1) }
+                            </p>
+                        </div>
+                        <div className="card-action">
+                            <Link to={'/provider/' + provider._id}>Information</Link>
+                            <a href={ provider.website }>Website</a>
+                        </div>
                     </div>
                 </div>
             );
@@ -112,7 +112,6 @@ class App extends Component {
                     </div>
                 )
             }
-
           </div>
         );
     }
