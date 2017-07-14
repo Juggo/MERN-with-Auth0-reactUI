@@ -29,3 +29,15 @@ img {
 .star-rate {
     color: goldenrod;
 }
+
+
+/*   FILTER CHANGES   */
+
+.filter-icon {
+    padding-right: 5px;
+}
+
+/*
+.modal.hide-on-med-and-up {
+    margin: auto;
+}*/

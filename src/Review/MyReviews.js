@@ -3,37 +3,89 @@ import { API_URL } from './../constants';
 import { Link } from 'react-router-dom';
 import $ from 'jquery';
 import Moment from 'react-moment';
+import history from '../history';
 
-class Provider extends Component {
+class MyReviews extends Component {
     componentDidMount() {
         $(document).ready(function(){
             $('.collapsible').collapsible();
+            // the "href" attribute of the modal trigger must specify the modal ID that wants to be triggered
+            $('.modal').modal();
         });
-    }  
+    }
     componentWillMount() {
-        this.setState({ provider: {
-            address: []
-            }
-        });
         this.setState({ reviews: [{
             providerRating: [],
             serviceRating: []
             }]
         });
+        this.setState({ profile: {} });
         
-        if(this.props.auth) {
-            const { authFetch } = this.props.auth;
-            authFetch(`${API_URL}` + this.props.location.pathname)
-                .then(data => this.setState({ provider: data }))
-                .catch(error => this.setState({ provider: error }));
-      
-            authFetch(`${API_URL}` + this.props.location.pathname.replace("/provider", "/reviews"))
-                .then(data => this.setState({ reviews: data }))
-                .catch(error => this.setState({ reviews: error }));
+        const { authFetch } = this.props.auth;
+
+        const { userProfile, getProfile } = this.props.auth;
+        if (!userProfile) {
+            getProfile((err, profile) => {
+                this.setState({ profile });
+
+                authFetch(`${API_URL}/userReviews/` + profile.sub)
+                    .then(data => {
+                        this.setState({ reviews: data });
+                        
+//                        for(var i = 0; i < data.length; i++) {
+//                            this.mountModals(i+1);
+//                        }
+                        
+                    })
+                    .catch(error => this.setState({ reviews: error }));
+            });
+        } else {
+            this.setState({ profile: userProfile });;
         }
-    }    
+    }
+//    mountModals(key) {
+//        $(document).ready(function(){
+//            $('#modal' + key).modal({
+//                dismissible: false,
+//                ready: function(modal, trigger) { // Callback for Modal open. Modal and trigger parameters available.
+//                    $('.collapsible').collapsible('close', 0);
+//                    $('.collapsible').collapsible('destroy');
+//                },
+//                complete: function() { $('.collapsible').collapsible(); } // Callback for Modal close
+//            });
+//        });
+//        
+//    }
+    openModal(key) {
+        $(document).ready(function(){;
+            $('#modal' + key).modal('open');
+        });
+    }
+    removeReview(review_id, provider_id) {
+        const { authFetch } = this.props.auth;
+        
+        authFetch(`${API_URL}/review/` + review_id, {
+            method: "DELETE",
+            body: JSON.stringify({
+                review_id: review_id
+            })
+        }).then(data => {
+            authFetch(`${API_URL}/reviews-aggregate/` + provider_id)
+                .then(reviewsData => { 
+                    authFetch(`${API_URL}/provider/` + provider_id, {
+                        method: "PUT",
+                        body: JSON.stringify({
+                            rating: reviewsData.length !== 0 ? reviewsData[0].totalAverage : 0
+                        })
+                    }).then(data => {
+                        history.replace(this.props.location.pathname);
+                    }).catch(error => this.setState({ reviews: error }));
+                })
+                .catch(error => this.setState({ reviews: error }));
+            
+        }).catch(error => this.setState({ reviews: error }));
+    }
     render() {
-        const { provider } = this.state;
         var key = 0;
         
         let reviewNodes = this.state.reviews.map(review => {
@@ -48,7 +100,36 @@ class Provider extends Component {
             return (
                 <li key={ key }>
                     <div className="collapsible-header">
-                        <b>{ key + '. ' + review.serviceType }</b> - created <Moment format="D. M. YYYY - HH:mm">{ review.createdAt }</Moment>
+                        <div>
+                            <div className="hide-on-med-and-up right">
+                                <Link to={ '/update-review/' + review._id }>
+                                    <i className="material-icons teal-text hoverable">edit</i>
+                                </Link>
+                                <a href={"#modal"+key} onClick={ this.openModal.bind(this, key) } ><i className="material-icons red-text hoverable">clear</i></a>
+                                <br/>
+                            </div>
+                            
+                            <b>{ key + '. ' + review.serviceType }</b> - created <Moment format="D. M. YYYY - HH:mm">{ review.createdAt }</Moment>
+                            
+                            <div className="right hide-on-small-only">
+                                <Link to={ '/update-review/' + review._id }>
+                                    <i className="material-icons teal-text hoverable">edit</i>
+                                </Link>
+                                <a href={"#modal"+key} onClick={ this.openModal.bind(this, key) } ><i className="material-icons red-text hoverable">clear</i></a>
+                            </div>
+                        </div>
+   
+                        <div id={"modal"+key} className="modal">
+                            <div className="modal-content">
+                              <h4>Delete Review</h4>
+                              <p>Are you sure you want to delete this review?</p>
+                            </div>
+                            <div className="modal-footer">
+                                <a href="#!" className="modal-action modal-close waves-effect waves-green btn-flat">Disagree</a>
+                                <a href="#!" onClick={ this.removeReview.bind(this, review._id, review.provider_id) } className="modal-action modal-close waves-effect waves-green btn-flat">Agree</a>
+                            </div>
+                        </div>
+                    
                     </div>
                     <div className="collapsible-body">
                         <div className="row valign-wrapper">
@@ -154,93 +235,31 @@ class Provider extends Component {
 
         return (
             <div className="container">
+                { reviewNodes.length === 0 && 
+                    <div className="progress">
+                        <div className="indeterminate"></div>
+                    </div> 
+                }
                 <br/>
                 <div className="nav-wrapper nav-breadcrumbs white">
                     <div className="col s12">
                         <Link to={'/'} className="breadcrumb teal-text lighten-2">Home</Link>
-                        <Link to={ this.props.location.pathname } className="breadcrumb teal-text lighten-2"><b>Provider Info</b></Link>
+                        <Link to={ this.props.location.pathname } className="breadcrumb teal-text lighten-2"><b>My Reviews</b></Link>
                     </div>
                 </div>
                 
                 <div className="row valign-wrapper">
-                    <div className="col s5">
-                        <h1>Provider Information</h1>
-                    </div>
-                    <div className="col s7 right-align">
-                        <Link to={ this.props.location.pathname.replace("/provider", "/add-review") } className="waves-effect waves-light btn">New review</Link>
+                    <div className="col s12">
+                        <h1>My Reviews</h1>
                     </div>
                 </div>
-                
-                <div className="col s12 m8 offset-m2 l6 offset-l3">
-                    <div className="card-panel grey lighten-5 z-depth-1">
-                        <div className="row valign-wrapper">
-                            <div className="col s3">
-                                <i className="card-icon material-icons prefix">person</i>
-                                <b>Name</b>
-                            </div>
-                            <div className="col s9">
-                                { provider.name }
-                            </div>
-                        </div>
-                        <div className="divider"></div><br/>
-                        <div className="row valign-wrapper">
-                            <div className="col s3">
-                                <i className="card-icon material-icons prefix">description</i>
-                                <b>Description</b>
-                            </div>
-                            <div className="col s9">
-                                { provider.description }
-                            </div>
-                        </div>
-                        <div className="divider"></div><br/>
-                        <div className="row valign-wrapper">
-                            <div className="col s3">
-                                <i className="card-icon material-icons prefix">info_outline</i>
-                                <b>Info</b>
-                            </div>
-                            <div className="col s9">
-                                { provider.info }
-                            </div>
-                        </div>
-                        <div className="divider"></div><br/>
-                        <div className="row valign-wrapper">
-                            <div className="col s3">
-                                <i className="card-icon material-icons prefix">web</i>
-                                <b>Website</b>
-                            </div>
-                            <div className="col s9">
-                                <a href={ provider.website }>{ provider.website }</a>
-                            </div>
-                        </div>
-                        <div className="divider"></div><br/>
-                        <div className="row valign-wrapper">
-                            <div className="col s3">
-                                <i className="card-icon material-icons prefix">location_on</i>
-                                <b>Address</b>
-                            </div>
-                            <div className="col s9">
-                                <a href={ 'https://www.google.com/maps/search/?api=1&query=' + provider.address.street + '+' + 
-                                        provider.address.city + '+' + provider.address.country }>
-                                    { 
-                                      (provider.address.street ? provider.address.street + ', ' : '') +
-                                      (provider.address.city ? provider.address.city + ', ' : '') +
-                                      (provider.address.postalCode ? provider.address.postalCode + ', ' : '') + 
-                                      (provider.address.country ? provider.address.country : '') 
-                                    }
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <br/>
-                <h2>Reviews</h2>
+
                 <ul className="collapsible popout" data-collapsible="expandable">
                     { reviewNodes.length !== 0 ? reviewNodes : <span className="teal-text">No reviews yet.</span> }
                 </ul><br/>
             </div>
         );
     }
-};
+}
 
-export default Provider;
+export default MyReviews;

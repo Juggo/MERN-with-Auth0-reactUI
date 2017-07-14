@@ -11,15 +11,15 @@ class Header extends Component {
     }
     
     goTo(route) {
-      this.props.history.replace(`/${route}`)
+        this.props.history.replace(`/${route}`);
     }
 
     login() {
-      this.props.auth.login();
+        this.props.auth.login();
     }
 
     logout() {
-      this.props.auth.logout();
+        this.props.auth.logout();
     }
 
     render() {
@@ -38,6 +38,16 @@ class Header extends Component {
                         }
                         {
                             isAuthenticated() && (
+                                <li><a onClick={this.goTo.bind(this, 'my-reviews')}>My Reviews</a></li>
+                            )
+                        }
+                        {
+                            isAuthenticated() && (
+                                <li><a onClick={this.goTo.bind(this, 'docs')}>Docs</a></li>
+                            )
+                        }
+                        {
+                            isAuthenticated() && (
                                 <li><a onClick={this.logout.bind(this)}>Log Out</a></li>
                             )
                         }
@@ -50,6 +60,16 @@ class Header extends Component {
                         }
                         {
                             isAuthenticated() && (
+                                <li><a onClick={this.goTo.bind(this, 'my-reviews')}>My Reviews</a></li>
+                            )
+                        }
+                        {
+                            isAuthenticated() && (
+                                <li><a onClick={this.goTo.bind(this, 'docs')}>Docs</a></li>
+                            )
+                        }
+                        {
+                            isAuthenticated() && (
                                 <li><a onClick={this.logout.bind(this)}>Log Out</a></li>
                             )
                         }
@@ -58,6 +78,6 @@ class Header extends Component {
             </nav>
         );
     }
-}
+};
 
 export default Header;

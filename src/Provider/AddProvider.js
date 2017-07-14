@@ -18,15 +18,6 @@ class AddProvider extends Component {
             postalCode: '',
             country: ''
         };
-        //binding all our functions to this class
-        this.handleNameChange = this.handleNameChange.bind(this);
-        this.handleDescriptionChange = this.handleDescriptionChange.bind(this);
-        this.handleInfoChange = this.handleInfoChange.bind(this);
-        this.handleWebsiteChange = this.handleWebsiteChange.bind(this);
-        this.handleStreetChange = this.handleStreetChange.bind(this);
-        this.handleCityChange = this.handleCityChange.bind(this);
-        this.handlePostalCodeChange = this.handlePostalCodeChange.bind(this);
-        this.handleCountryChange = this.handleCountryChange.bind(this);
     }
     componentDidMount() {
         $(document).ready(function() {
@@ -63,29 +54,11 @@ class AddProvider extends Component {
             }).catch(error => this.setState({ providers: error }));
         }
     }
-    handleNameChange(e) {
-        this.setState({ name: e.target.value });
-    }
-    handleDescriptionChange(e) {
-        this.setState({ description: e.target.value });
-    }
-    handleInfoChange(e) {
-        this.setState({ info: e.target.value });
-    }
-    handleWebsiteChange(e) {
-        this.setState({ website: e.target.value });
-    }
-    handleStreetChange(e) {
-        this.setState({ street: e.target.value });
-    }
-    handleCityChange(e) {
-        this.setState({ city: e.target.value });
-    }
-    handlePostalCodeChange(e) {
-        this.setState({ postalCode: e.target.value });
-    }
-    handleCountryChange(e) {
-        this.setState({ country: e.target.value });
+    handleChangeFor = (propertyName) => (event) => {
+        const newChange = {
+            [propertyName]: event.target.value
+        };
+        this.setState(newChange);
     }
     render() {
         const isEnabled = 
@@ -110,28 +83,35 @@ class AddProvider extends Component {
                     <div className="row">
                         <div className="input-field col s12">
                             <i className="material-icons prefix">person</i>
-                            <input id="name" type="text" required="true" aria-required="true" className="validate" value={ this.state.name } onChange={ this.handleNameChange }/>
+                            <input id="name" type="text" required="true" aria-required="true" className="validate" value={ this.state.name } onChange={ this.handleChangeFor('name') }/>
                             <label htmlFor="name">Name <span className="red-text">*</span></label>
                         </div>
                     </div>
                     <div className="row">
                         <div className="input-field col s12">
                             <i className="material-icons prefix">description</i>
-                            <input id="description" data-length="100" type="text" required="true" aria-required="true" className="validate" value={ this.state.description } onChange={ this.handleDescriptionChange }/>
+                            <input id="description" data-length="100" type="text" required="true" aria-required="true" className="validate" value={ this.state.description } onChange={ this.handleChangeFor('description') }/>
                             <label htmlFor="description" data-error="Too many characters!">Description <span className="red-text">*</span></label>
                         </div>
                     </div>
                     <div className="row">
                         <div className="input-field col s12">
                             <i className="material-icons prefix">info_outline</i>
-                            <textarea id="info" data-length="500" value={ this.state.info } onChange={ this.handleInfoChange } className="materialize-textarea"></textarea>
+                            <textarea id="info" data-length="500" value={ this.state.info } onChange={ this.handleChangeFor('info') } className="materialize-textarea"></textarea>
                             <label htmlFor="info">Info</label>
                         </div>
                     </div>
                     <div className="row">
                         <div className="input-field col s12">
+                            <i className="material-icons prefix">image</i>
+                            <input id="img" type="text" value={ this.state.img } onChange={ this.handleChangeFor('img') } className="validate"/>
+                            <label htmlFor="img">Image URL</label>
+                        </div>
+                    </div>
+                    <div className="row">
+                        <div className="input-field col s12">
                             <i className="material-icons prefix">web</i>
-                            <input id="website" type="text" value={ this.state.website } onChange={ this.handleWebsiteChange } className="validate"/>
+                            <input id="website" type="text" value={ this.state.website } onChange={ this.handleChangeFor('website') } className="validate"/>
                             <label htmlFor="website">Website</label>
                         </div>
                     </div>
@@ -140,21 +120,21 @@ class AddProvider extends Component {
                     <h2><i className="small material-icons prefix">location_on</i> Address</h2>
                     <div className="row">
                         <div className="input-field col s6">
-                            <input id="street" type="text" required="true" aria-required="true" className="validate" value={ this.state.street } onChange={ this.handleStreetChange }/>
+                            <input id="street" type="text" required="true" aria-required="true" className="validate" value={ this.state.street } onChange={ this.handleChangeFor('street') }/>
                             <label htmlFor="street">Street <span className="red-text">*</span></label>
                         </div>
                         <div className="input-field col s6">
-                            <input id="city" type="text" required="true" aria-required="true" className="validate" value={ this.state.city } onChange={ this.handleCityChange }/>
+                            <input id="city" type="text" required="true" aria-required="true" className="validate" value={ this.state.city } onChange={ this.handleChangeFor('city') }/>
                             <label htmlFor="city">City <span className="red-text">*</span></label>
                         </div>
                     </div>
                     <div className="row">
                         <div className="input-field col s6">
-                            <input id="postalCode" type="text" className="validate" value={ this.state.postalCode } onChange={ this.handlePostalCodeChange }/>
+                            <input id="postalCode" type="text" className="validate" value={ this.state.postalCode } onChange={ this.handleChangeFor('postalCode') }/>
                             <label htmlFor="postalCode">Postal Code</label>
                         </div>
                         <div className="input-field col s6">
-                            <input id="country" type="text" required="true" aria-required="true" className="validate" value={ this.state.country } onChange={ this.handleCountryChange }/>
+                            <input id="country" type="text" required="true" aria-required="true" className="validate" value={ this.state.country } onChange={ this.handleChangeFor('country') }/>
                             <label htmlFor="country">Country <span className="red-text">*</span></label>
                         </div>
                     </div>

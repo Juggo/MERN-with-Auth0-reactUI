@@ -24,18 +24,6 @@ class AddReview extends Component {
             comment: '',
             satisfaction: ''
         };
-        //binding all our functions to this class
-        this.handleCommunicationChange = this.handleCommunicationChange.bind(this);
-        this.handleManagementChange = this.handleManagementChange.bind(this);
-        this.handleIntegrityChange = this.handleIntegrityChange.bind(this);
-        this.handleReliabilityChange = this.handleReliabilityChange.bind(this);
-        this.handleAvailabilityChange = this.handleAvailabilityChange.bind(this);
-        this.handleServiceTypeChange = this.handleServiceTypeChange.bind(this);
-        this.handleTimelinessChange = this.handleTimelinessChange.bind(this);
-        this.handleQualityChange = this.handleQualityChange.bind(this);
-        this.handleCostsChange = this.handleCostsChange.bind(this);
-        this.handleCommentChange = this.handleCommentChange.bind(this);
-        this.handleSatisfactionChange = this.handleSatisfactionChange.bind(this);
     }
     componentDidMount() {
         $(document).ready(function() {
@@ -47,11 +35,11 @@ class AddReview extends Component {
         
         const { userProfile, getProfile } = this.props.auth;
         if (!userProfile) {
-          getProfile((err, profile) => {
-            this.setState({ profile });
-          });
+            getProfile((err, profile) => {
+                this.setState({ profile });
+            });
         } else {
-          this.setState({ profile: userProfile });;
+            this.setState({ profile: userProfile });;
         }
     }
     saveReview(e) {
@@ -111,83 +99,30 @@ class AddReview extends Component {
               .catch(error => this.setState({ reviews: error }));
         }
     }
-    handleCommunicationChange(e) {
-        if (e.target.value > 0 && e.target.value < 11)
-            this.setState({ communication: e.target.value });
-        else if (e.target.value === '')
-            this.setState({ communication: '' });
-        else if (e.target.value < 1)
-            this.setState({ communication: 1 });
+    handleChangeForString = (propertyName) => (event) => {
+        const newChange = {
+            [propertyName]: event.target.value
+        };
+        this.setState(newChange);
     }
-    handleManagementChange(e) {
-        if (e.target.value > 0 && e.target.value < 11)
-            this.setState({ management: e.target.value });
-        else if (e.target.value === '')
-            this.setState({ management: '' });
-        else if (e.target.value < 1)
-            this.setState({ management: 1 });
-    }
-    handleIntegrityChange(e) {
-        if (e.target.value > 0 && e.target.value < 11)
-            this.setState({ integrity: e.target.value });
-        else if (e.target.value === '')
-            this.setState({ integrity: '' });
-        else if (e.target.value < 1)
-            this.setState({ integrity: 1 });
-    }
-    handleReliabilityChange(e) {
-        if (e.target.value > 0 && e.target.value < 11)
-            this.setState({ reliability: e.target.value });
-        else if (e.target.value === '')
-            this.setState({ reliability: '' });
-        else if (e.target.value < 1)
-            this.setState({ reliability: 1 });
-    }
-    handleAvailabilityChange(e) {
-        if (e.target.value > 0 && e.target.value < 11)
-            this.setState({ availability: e.target.value });
-        else if (e.target.value === '')
-            this.setState({ availability: '' });
-        else if (e.target.value < 1)
-            this.setState({ availability: 1 });
-    }
-    handleServiceTypeChange(e) {
-        this.setState({ serviceType: e.target.value });
-    }
-    handleTimelinessChange(e) {
-        if (e.target.value > 0 && e.target.value < 11)
-            this.setState({ timeliness: e.target.value });
-        else if (e.target.value === '')
-            this.setState({ timeliness: '' });
-        else if (e.target.value < 1)
-            this.setState({ timeliness: 1 });
-    }
-    handleQualityChange(e) {
-        if (e.target.value > 0 && e.target.value < 11)
-            this.setState({ quality: e.target.value });
-        else if (e.target.value === '')
-            this.setState({ quality: '' });
-        else if (e.target.value < 1)
-            this.setState({ quality: 1 });
-    }
-    handleCostsChange(e) {
-        if (e.target.value > 0 && e.target.value < 11)
-            this.setState({ costs: e.target.value });
-        else if (e.target.value === '')
-            this.setState({ costs: '' });
-        else if (e.target.value < 1)
-            this.setState({ costs: 1 });
-    }
-    handleCommentChange(e) {
-        this.setState({ comment: e.target.value });
-    }
-    handleSatisfactionChange(e) {
-        if (e.target.value > 0 && e.target.value < 11)
-            this.setState({ satisfaction: e.target.value });
-        else if (e.target.value === '')
-            this.setState({ satisfaction: '' });
-        else if (e.target.value < 1)
-            this.setState({ satisfaction: 1 });
+    handleChangeForNumber = (propertyName) => (event) => {
+        let newChange = {};
+        
+        if (event.target.value > 0 && event.target.value < 11) {
+            newChange = {
+                [propertyName]: event.target.value
+            };
+        } else if (event.target.value === '') {
+            newChange = {
+                [propertyName]: ''
+            };
+        } else if (event.target.value < 1) {
+            newChange = {
+                [propertyName]: 1
+            };
+        }
+        
+        this.setState(newChange);
     }
     render() {
         const isEnabled = 
@@ -217,7 +152,7 @@ class AddReview extends Component {
                 <div className="row">
                   <div className="input-field col s12">
                     <input id="serviceType" type="text" required="true" aria-required="true" className="validate" 
-                        value={ this.state.serviceType } onChange={ this.handleServiceTypeChange }/>
+                        value={ this.state.serviceType } onChange={ this.handleChangeForString('serviceType') }/>
                     <label htmlFor="serviceType">Type of service <span className="red-text">*</span></label>
                   </div>
                 </div>
@@ -225,7 +160,7 @@ class AddReview extends Component {
                 <div className="row">
                   <div className="input-field col s12">
                     <textarea id="comment" data-length="500" required="true" aria-required="true" 
-                        value={ this.state.comment } onChange={ this.handleCommentChange } className="materialize-textarea"></textarea>
+                        value={ this.state.comment } onChange={ this.handleChangeForString('comment') } className="materialize-textarea"></textarea>
                     <label htmlFor="comment">Comment <span className="red-text">*</span></label>
                   </div>
                 </div>
@@ -235,27 +170,27 @@ class AddReview extends Component {
                 <div className="row">
                   <div className="input-field col m2 s4 offset-m1">
                     <input id="communication" type="number" required="true" aria-required="true" className="validate" 
-                        value={ this.state.communication } onChange={ this.handleCommunicationChange }/>
+                        value={ this.state.communication } onChange={ this.handleChangeForNumber('communication') }/>
                     <label htmlFor="communication">Communication <span className="red-text">*</span></label>
                   </div>
                   <div className="input-field col m2 s4">
                     <input id="management" type="number" required="true" aria-required="true" className="validate" 
-                        value={ this.state.management } onChange={ this.handleManagementChange }/>
+                        value={ this.state.management } onChange={ this.handleChangeForNumber('management') }/>
                     <label htmlFor="management">Management <span className="red-text">*</span></label>
                   </div>
                   <div className="input-field col m2 s4">
                     <input id="integrity" type="number" required="true" aria-required="true" className="validate" 
-                        value={ this.state.integrity } onChange={ this.handleIntegrityChange }/>
+                        value={ this.state.integrity } onChange={ this.handleChangeForNumber('integrity') }/>
                     <label htmlFor="integrity">Integrity <span className="red-text">*</span></label>
                   </div>
                   <div className="input-field col m2 s4">
                     <input id="reliability" type="number" required="true" aria-required="true" className="validate" 
-                        value={ this.state.reliability } onChange={ this.handleReliabilityChange }/>
+                        value={ this.state.reliability } onChange={ this.handleChangeForNumber('reliability') }/>
                     <label htmlFor="reliability">Reliability <span className="red-text">*</span></label>
                   </div>
                   <div className="input-field col m2 s4">
                     <input id="availability" type="number" required="true" aria-required="true" className="validate" 
-                        value={ this.state.availability } onChange={ this.handleAvailabilityChange }/>
+                        value={ this.state.availability } onChange={ this.handleChangeForNumber('availability') }/>
                     <label htmlFor="availability">Availability <span className="red-text">*</span></label>
                   </div>
                 </div>
@@ -266,17 +201,17 @@ class AddReview extends Component {
                 <div className="row">
                   <div className="input-field col s4">
                     <input id="timeliness" type="number" required="true" aria-required="true" className="validate" 
-                        value={ this.state.timeliness } onChange={ this.handleTimelinessChange }/>
+                        value={ this.state.timeliness } onChange={ this.handleChangeForNumber('timeliness') }/>
                     <label htmlFor="timeliness">Timeliness <span className="red-text">*</span></label>
                   </div>
                   <div className="input-field col s4">
                     <input id="quality" type="number" required="true" aria-required="true" className="validate" 
-                        value={ this.state.quality } onChange={ this.handleQualityChange }/>
+                        value={ this.state.quality } onChange={ this.handleChangeForNumber('quality') }/>
                     <label htmlFor="quality">Quality <span className="red-text">*</span></label>
                   </div>
                   <div className="input-field col s4">
                     <input id="costs" type="number" required="true" aria-required="true" className="validate" 
-                        value={ this.state.costs } onChange={ this.handleCostsChange }/>
+                        value={ this.state.costs } onChange={ this.handleChangeForNumber('costs') }/>
                     <label htmlFor="costs">Costs <span className="red-text">*</span> <span className="black-text">*</span></label>
                   </div>
                 </div>
@@ -291,7 +226,7 @@ class AddReview extends Component {
                 <div className="row">
                   <div className="input-field col s6 offset-s3">
                     <input id="satisfaction" type="number" required="true" aria-required="true" className="validate" 
-                        value={ this.state.satisfaction } onChange={ this.handleSatisfactionChange }/>
+                        value={ this.state.satisfaction } onChange={ this.handleChangeForNumber('satisfaction') }/>
                     <label htmlFor="satisfaction">Satisfaction <span className="red-text">*</span></label>
                   </div>
                 </div>
