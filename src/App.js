@@ -25,8 +25,11 @@ class App extends Component {
         this.loadSecuredProviders(0, e.target.value);
     }
     componentWillMount() {
-        this.setState({ providers: [] });
-        this.setState({ count: null });
+        this.setState({ 
+            providers: [], 
+            count: null,
+            numberOfResults: 10 
+        });
     }
     componentDidMount() {
         const { authFetch } = this.props.auth;
@@ -61,19 +64,19 @@ class App extends Component {
                                     <a href="#!"><i className="material-icons">chevron_left</i></a>
                                 </li>);
 
-                        for (var i = 0; i < Math.ceil(data[0].count/3); i++) {  
+                        for (var i = 0; i < Math.ceil(data[0].count/this.state.numberOfResults); i++) {  
                             if(i === 0) 
                                 pag.push(<li className="active" key={ i+1 }><a href="#" onClick={this.loadSecuredProviders.bind(this, i, this.state.name)}> { i+1 } </a></li>);
                             else
                                 pag.push(<li className="waves-effect" key={ i+1 }><a href="#" onClick={this.loadSecuredProviders.bind(this, i, this.state.name)}> { i+1 } </a></li>);
                         }
 
-                        if(0 === Math.ceil(data[0].count/3)-1)
-                            pag.push(<li className="disabled" key={ Math.ceil(data[0].count/3)+1 }>
+                        if(0 === Math.ceil(data[0].count/this.state.numberOfResults)-1)
+                            pag.push(<li className="disabled" key={ Math.ceil(data[0].count/this.state.numberOfResults)+1 }>
                                         <a href="#!"><i className="material-icons">chevron_right</i></a>
                                     </li>);
                         else
-                            pag.push(<li className="waves-effect" key={ Math.ceil(data[0].count/3)+1 }>
+                            pag.push(<li className="waves-effect" key={ Math.ceil(data[0].count/this.state.numberOfResults)+1 }>
                                         <a href="#" onClick={this.loadSecuredProviders.bind(this, 1, this.state.name)}><i className="material-icons">chevron_right</i></a>
                                     </li>);
 
@@ -120,19 +123,19 @@ class App extends Component {
                                 <a href="#" onClick={this.loadSecuredProviders.bind(this, offset-1, this.state.name)}><i className="material-icons">chevron_left</i></a>
                             </li>);
 
-                for (var i = 0; i < Math.ceil(data/3); i++) {  
+                for (var i = 0; i < Math.ceil(data/this.state.numberOfResults); i++) {  
                     if(i === offset) 
                         pag.push(<li className="active" key={ i+1 }><a href="#" onClick={this.loadSecuredProviders.bind(this, i, this.state.name)}> { i+1 } </a></li>);
                     else
                         pag.push(<li className="waves-effect" key={ i+1 }><a href="#" onClick={this.loadSecuredProviders.bind(this, i, this.state.name)}> { i+1 } </a></li>);
                 }
 
-                if(offset === Math.ceil(data/3)-1)
-                    pag.push(<li className="disabled" key={ Math.ceil(data/3)+1 }>
+                if(offset === Math.ceil(data/this.state.numberOfResults)-1)
+                    pag.push(<li className="disabled" key={ Math.ceil(data/this.state.numberOfResults)+1 }>
                                 <a href="#!"><i className="material-icons">chevron_right</i></a>
                             </li>);
                 else
-                    pag.push(<li className="waves-effect" key={ Math.ceil(data/3)+1 }>
+                    pag.push(<li className="waves-effect" key={ Math.ceil(data/this.state.numberOfResults)+1 }>
                                 <a href="#" onClick={this.loadSecuredProviders.bind(this, offset+1, this.state.name)}><i className="material-icons">chevron_right</i></a>
                             </li>);
 
