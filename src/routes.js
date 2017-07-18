@@ -12,6 +12,7 @@ import AddReview from './Review/AddReview';
 import UpdateReview from './Review/UpdateReview';
 import MyReviews from './Review/MyReviews';
 import Docs from './Docs/Docs';
+import Author from './Author/Author';
 
 const auth = new Auth();
 
@@ -27,6 +28,7 @@ export const makeMainRoutes = () => {
             <div>
                 <Header auth={auth} history={history}/>
                 <Route exact path="/" render={(props) => <App auth={auth} {...props} />} />
+                <Route path="/author" render={(props) => <Author auth={auth} {...props} />} />
                 <Route path="/provider" render={(props) => (
                     !auth.isAuthenticated() ? (
                         <Redirect to="/"/>

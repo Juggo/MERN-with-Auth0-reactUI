@@ -24,7 +24,7 @@ class Header extends Component {
 
     render() {
         const { isAuthenticated } = this.props.auth;
-
+        
         return (
             <nav>
                 <div className="container nav-wrapper">
@@ -32,15 +32,13 @@ class Header extends Component {
                     <a href="" onClick={this.goTo.bind(this, '')} className="brand-logo"><i className="material-icons">done_all</i> Rate IT</a>
                     <ul className="right hide-on-med-and-down">
                         {
-                            !isAuthenticated() && (
-                                <li><a onClick={this.login.bind(this)}>Log In</a></li>
-                            )
-                        }
-                        {
                             isAuthenticated() && (
                                 <li><a onClick={this.goTo.bind(this, 'my-reviews')}>My Reviews</a></li>
                             )
                         }
+                        
+                        <li><a onClick={this.goTo.bind(this, 'author')}>Author</a></li>
+                        
                         {
                             isAuthenticated() && (
                                 <li><a onClick={this.goTo.bind(this, 'docs')}>Docs</a></li>
@@ -49,20 +47,23 @@ class Header extends Component {
                         {
                             isAuthenticated() && (
                                 <li><a onClick={this.logout.bind(this)}>Log Out</a></li>
+                            )
+                        }
+                        {
+                            !isAuthenticated() && (
+                                <li><a onClick={this.login.bind(this)}>Log In</a></li>
                             )
                         }
                     </ul>
                     <ul className="side-nav" id="mobile-demo">
                         {
-                            !isAuthenticated() && (
-                                <li><a onClick={this.login.bind(this)}>Log In</a></li>
-                            )
-                        }
-                        {
                             isAuthenticated() && (
                                 <li><a onClick={this.goTo.bind(this, 'my-reviews')}>My Reviews</a></li>
                             )
                         }
+                        
+                        <li><a onClick={this.goTo.bind(this, 'author')}>Author</a></li>
+                        
                         {
                             isAuthenticated() && (
                                 <li><a onClick={this.goTo.bind(this, 'docs')}>Docs</a></li>
@@ -71,6 +72,11 @@ class Header extends Component {
                         {
                             isAuthenticated() && (
                                 <li><a onClick={this.logout.bind(this)}>Log Out</a></li>
+                            )
+                        }
+                        {
+                            !isAuthenticated() && (
+                                <li><a onClick={this.login.bind(this)}>Log In</a></li>
                             )
                         }
                     </ul>

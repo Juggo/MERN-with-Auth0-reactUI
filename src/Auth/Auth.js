@@ -27,11 +27,7 @@ export default class Auth {
   }
 
   login() {
-    this.auth0.authorize({
-        languageDictionary: {
-            title: "Log In"
-        }
-    });
+    this.auth0.authorize();
   }
 
   handleAuthentication() {

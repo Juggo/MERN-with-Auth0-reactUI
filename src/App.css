@@ -37,7 +37,8 @@ img {
     padding-right: 5px;
 }
 
-/*
-.modal.hide-on-med-and-up {
-    margin: auto;
-}*/
+
+
+.btn.linked-in {
+    background-color: #0077B5;
+}
