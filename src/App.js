@@ -10,7 +10,9 @@ class App extends Component {
     constructor(props) {
         super(props);
         
-        if(this.props.auth) {
+        if(this.props.auth.isAuthenticated()) {
+            console.log(this.props);
+            
             this.loadSecuredProviders(0, '');
             
             this.state = {
@@ -58,13 +60,13 @@ class App extends Component {
 //                    if(data[0].length === 0) {
                         this.setState({ count: data[0].count });
                     
-                        var pag = [];
+                        let pag = [];
 
                         pag.push(<li className="disabled" key={ 0 }>
                                     <a href="#!"><i className="material-icons">chevron_left</i></a>
                                 </li>);
 
-                        for (var i = 0; i < Math.ceil(data[0].count/this.state.numberOfResults); i++) {  
+                        for (let i = 0; i < Math.ceil(data[0].count/this.state.numberOfResults); i++) {  
                             if(i === 0) 
                                 pag.push(<li className="active" key={ i+1 }><a href="#" onClick={this.loadSecuredProviders.bind(this, i, this.state.name)}> { i+1 } </a></li>);
                             else
@@ -112,7 +114,7 @@ class App extends Component {
                 if(text !== '')
                     data = data[0].count;
             
-                var pag = [];
+                let pag = [];
 
                 if(offset === 0)
                     pag.push(<li className="disabled" key={ 0 }>
@@ -123,7 +125,7 @@ class App extends Component {
                                 <a href="#" onClick={this.loadSecuredProviders.bind(this, offset-1, this.state.name)}><i className="material-icons">chevron_left</i></a>
                             </li>);
 
-                for (var i = 0; i < Math.ceil(data/this.state.numberOfResults); i++) {  
+                for (let i = 0; i < Math.ceil(data/this.state.numberOfResults); i++) {  
                     if(i === offset) 
                         pag.push(<li className="active" key={ i+1 }><a href="#" onClick={this.loadSecuredProviders.bind(this, i, this.state.name)}> { i+1 } </a></li>);
                     else
@@ -237,8 +239,8 @@ class App extends Component {
                             <div className="input-field col s12">
                                 <div className="autocomplete" id="single">
                                     <div className="ac-input">
-                                        <input type="text" id="singleInput" key={this.state.name} autoFocus placeholder="Enter text to filter result" value={ this.state.name } 
-                                        onChange={ this.handleNameChange } data-activates="singleDropdown" data-beloworigin="true" autocomplete="off"/>
+                                        <input type="text" id="singleInput" key={this.state.name} autoFocus placeholder="Enter text to filter results" value={ this.state.name } 
+                                        onChange={ this.handleNameChange } data-activates="singleDropdown" data-beloworigin="true" autoComplete="off"/>
                                     </div>
                                     <ul id="singleDropdown" className="dropdown-content ac-dropdown"></ul>
                                 </div>

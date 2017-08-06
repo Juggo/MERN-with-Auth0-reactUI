@@ -134,117 +134,119 @@ class AddReview extends Component {
             this.state.reliability < 11 && this.state.availability < 11 && this.state.timeliness < 11 && 
             this.state.quality < 11 && this.state.costs < 11 && this.state.satisfaction < 11;
   
-      return (
-        <div className="container">
-          <br/>
-          <div className="nav-wrapper nav-breadcrumbs white">
-            <div className="col s12">
-              <Link to={'/'} className="breadcrumb teal-text lighten-2">Home</Link>
-              <Link to={ this.props.location.pathname.replace("/add-review", "/provider") } className="breadcrumb teal-text lighten-2">Provider Info</Link>
-              <Link to={ this.props.location.pathname } className="breadcrumb teal-text lighten-2"><b>Add Review</b></Link>
+        return (
+            <div className="container">
+                <br/>
+                <div className="nav-wrapper nav-breadcrumbs white">
+                    <div className="col s12">
+                        <Link to={'/'} className="breadcrumb teal-text lighten-2">Home</Link>
+                        <Link to={ this.props.location.pathname.replace("/add-review", "/provider") } className="breadcrumb teal-text lighten-2">Provider Info</Link>
+                        <Link to={ this.props.location.pathname } className="breadcrumb teal-text lighten-2"><b>Add Review</b></Link>
+                    </div>
+                </div>
+
+                <h1>Add Review</h1>
+
+                <div className="row">
+                    <form className="col s12">
+                        <div className="row">
+                            <div className="input-field col s12">
+                                <input id="serviceType" type="text" required="true" aria-required="true" className="validate" 
+                                    value={ this.state.serviceType } onChange={ this.handleChangeForString('serviceType') }/>
+                                <label htmlFor="serviceType">Type of service <span className="red-text">*</span></label>
+                            </div>
+                        </div>
+
+                        <div className="row">
+                          <div className="input-field col s12">
+                            <textarea id="comment" data-length="500" required="true" aria-required="true" 
+                                value={ this.state.comment } onChange={ this.handleChangeForString('comment') } className="materialize-textarea"></textarea>
+                            <label htmlFor="comment">Comment <span className="red-text">*</span></label>
+                          </div>
+                        </div>
+
+                        <h2>Provider Rating</h2>
+                        <p><i>Pick a number from 1 to 10. A higher value represents higher satisfaction with the factor.</i></p>
+                        <br/>
+
+                        <div className="row">
+                            <div className="input-field col m2 s4 offset-m1">
+                                <input id="communication" type="number" required="true" aria-required="true" className="validate" 
+                                    value={ this.state.communication } onChange={ this.handleChangeForNumber('communication') }/>
+                                <label htmlFor="communication">Communication <span className="red-text">*</span></label>
+                            </div>
+                            <div className="input-field col m2 s4">
+                                <input id="management" type="number" required="true" aria-required="true" className="validate" 
+                                    value={ this.state.management } onChange={ this.handleChangeForNumber('management') }/>
+                                <label htmlFor="management">Management <span className="red-text">*</span></label>
+                            </div>
+                            <div className="input-field col m2 s4">
+                                <input id="integrity" type="number" required="true" aria-required="true" className="validate" 
+                                    value={ this.state.integrity } onChange={ this.handleChangeForNumber('integrity') }/>
+                                <label htmlFor="integrity">Integrity <span className="red-text">*</span></label>
+                            </div>
+                            <div className="input-field col m2 s4">
+                                <input id="reliability" type="number" required="true" aria-required="true" className="validate" 
+                                    value={ this.state.reliability } onChange={ this.handleChangeForNumber('reliability') }/>
+                                <label htmlFor="reliability">Reliability <span className="red-text">*</span></label>
+                            </div>
+                            <div className="input-field col m2 s4">
+                                <input id="availability" type="number" required="true" aria-required="true" className="validate" 
+                                    value={ this.state.availability } onChange={ this.handleChangeForNumber('availability') }/>
+                                <label htmlFor="availability">Availability <span className="red-text">*</span></label>
+                            </div>
+                        </div>
+
+                        <br/>
+                        <h2>Service Rating</h2>
+                        <p><i>Pick a number from 1 to 10. A higher value represents higher satisfaction with the factor.</i></p>
+                        <br/>
+
+                        <div className="row">
+                            <div className="input-field col s4">
+                                <input id="timeliness" type="number" required="true" aria-required="true" className="validate" 
+                                    value={ this.state.timeliness } onChange={ this.handleChangeForNumber('timeliness') }/>
+                                <label htmlFor="timeliness">Timeliness <span className="red-text">*</span></label>
+                            </div>
+                            <div className="input-field col s4">
+                                <input id="quality" type="number" required="true" aria-required="true" className="validate" 
+                                    value={ this.state.quality } onChange={ this.handleChangeForNumber('quality') }/>
+                                <label htmlFor="quality">Quality <span className="red-text">*</span></label>
+                            </div>
+                            <div className="input-field col s4">
+                                <input id="costs" type="number" required="true" aria-required="true" className="validate" 
+                                    value={ this.state.costs } onChange={ this.handleChangeForNumber('costs') }/>
+                                <label htmlFor="costs">Costs <span className="red-text">*</span></label>
+                            </div>
+                        </div>
+
+                        <br/>
+                        <h2>Satisfaction</h2>
+                        <p><i>Pick a number from 1 to 10. A higher value represents higher overall satisfaction.</i></p>
+                        <br/>
+
+                        <div className="row">
+                            <div className="input-field col s6 offset-s3">
+                                <input id="satisfaction" type="number" required="true" aria-required="true" className="validate" 
+                                    value={ this.state.satisfaction } onChange={ this.handleChangeForNumber('satisfaction') }/>
+                                <label htmlFor="satisfaction">Satisfaction <span className="red-text">*</span></label>
+                            </div>
+                        </div>
+
+                        <div className="row">
+                            <div className="col s12 informative-font-size">
+                            <p><span className="red-text">*</span> required field</p>
+                            </div>
+                        </div>
+                        <div className="row">
+                            <div className="input-field col s12">
+                                <button type="submit" onClick={ this.saveReview.bind(this) } disabled={ !isEnabled } className="waves-effect waves-light btn">Submit</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
             </div>
-          </div>
-
-          <h1>Add Review</h1>
-
-          <div className="row">
-              <form className="col s12">
-                <div className="row">
-                  <div className="input-field col s12">
-                    <input id="serviceType" type="text" required="true" aria-required="true" className="validate" 
-                        value={ this.state.serviceType } onChange={ this.handleChangeForString('serviceType') }/>
-                    <label htmlFor="serviceType">Type of service <span className="red-text">*</span></label>
-                  </div>
-                </div>
-                
-                <div className="row">
-                  <div className="input-field col s12">
-                    <textarea id="comment" data-length="500" required="true" aria-required="true" 
-                        value={ this.state.comment } onChange={ this.handleChangeForString('comment') } className="materialize-textarea"></textarea>
-                    <label htmlFor="comment">Comment <span className="red-text">*</span></label>
-                  </div>
-                </div>
-                
-                <h2>Provider Rating</h2>
-                
-                <div className="row">
-                  <div className="input-field col m2 s4 offset-m1">
-                    <input id="communication" type="number" required="true" aria-required="true" className="validate" 
-                        value={ this.state.communication } onChange={ this.handleChangeForNumber('communication') }/>
-                    <label htmlFor="communication">Communication <span className="red-text">*</span></label>
-                  </div>
-                  <div className="input-field col m2 s4">
-                    <input id="management" type="number" required="true" aria-required="true" className="validate" 
-                        value={ this.state.management } onChange={ this.handleChangeForNumber('management') }/>
-                    <label htmlFor="management">Management <span className="red-text">*</span></label>
-                  </div>
-                  <div className="input-field col m2 s4">
-                    <input id="integrity" type="number" required="true" aria-required="true" className="validate" 
-                        value={ this.state.integrity } onChange={ this.handleChangeForNumber('integrity') }/>
-                    <label htmlFor="integrity">Integrity <span className="red-text">*</span></label>
-                  </div>
-                  <div className="input-field col m2 s4">
-                    <input id="reliability" type="number" required="true" aria-required="true" className="validate" 
-                        value={ this.state.reliability } onChange={ this.handleChangeForNumber('reliability') }/>
-                    <label htmlFor="reliability">Reliability <span className="red-text">*</span></label>
-                  </div>
-                  <div className="input-field col m2 s4">
-                    <input id="availability" type="number" required="true" aria-required="true" className="validate" 
-                        value={ this.state.availability } onChange={ this.handleChangeForNumber('availability') }/>
-                    <label htmlFor="availability">Availability <span className="red-text">*</span></label>
-                  </div>
-                </div>
-                
-                <br/>
-                <h2>Service Rating</h2>
-                
-                <div className="row">
-                  <div className="input-field col s4">
-                    <input id="timeliness" type="number" required="true" aria-required="true" className="validate" 
-                        value={ this.state.timeliness } onChange={ this.handleChangeForNumber('timeliness') }/>
-                    <label htmlFor="timeliness">Timeliness <span className="red-text">*</span></label>
-                  </div>
-                  <div className="input-field col s4">
-                    <input id="quality" type="number" required="true" aria-required="true" className="validate" 
-                        value={ this.state.quality } onChange={ this.handleChangeForNumber('quality') }/>
-                    <label htmlFor="quality">Quality <span className="red-text">*</span></label>
-                  </div>
-                  <div className="input-field col s4">
-                    <input id="costs" type="number" required="true" aria-required="true" className="validate" 
-                        value={ this.state.costs } onChange={ this.handleChangeForNumber('costs') }/>
-                    <label htmlFor="costs">Costs <span className="red-text">*</span> <span className="black-text">*</span></label>
-                  </div>
-                </div>
-                
-                <div className="row">
-                  <div className="col s12 informative-font-size">
-                  <p><span className="black-text">*</span> higher value represents higher satisfaction with costs</p>
-                  </div>
-                </div>
-                
-                <br/>
-                <div className="row">
-                  <div className="input-field col s6 offset-s3">
-                    <input id="satisfaction" type="number" required="true" aria-required="true" className="validate" 
-                        value={ this.state.satisfaction } onChange={ this.handleChangeForNumber('satisfaction') }/>
-                    <label htmlFor="satisfaction">Satisfaction <span className="red-text">*</span></label>
-                  </div>
-                </div>
-                
-                <div className="row">
-                  <div className="col s12 informative-font-size">
-                  <p><span className="red-text">*</span> required field</p>
-                  </div>
-                </div>
-                <div className="row">
-                  <div className="input-field col s12">
-                    <button type="submit" onClick={ this.saveReview.bind(this) } disabled={ !isEnabled } className="waves-effect waves-light btn">Submit</button>
-                  </div>
-                </div>
-              </form>
-          </div>
-        </div>
-      );
+        );
     }
 }
 
