@@ -11,8 +11,6 @@ class App extends Component {
         super(props);
         
         if(this.props.auth.isAuthenticated()) {
-            console.log(this.props);
-            
             this.loadSecuredProviders(0, '');
             
             this.state = {
